@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Member {
@@ -16,8 +18,13 @@ public class Member {
 	@Column(name = "username")
 	private String username;
 
-	@Column(name = "team_id")
-	private Long teamId;
+//	@Column(name = "team_id")
+//	private Long teamId;
+
+	// Member : team = N : 1 => member입장에서 Many team은 One
+	@ManyToOne
+	@JoinColumn(name = "team_id")
+	private Team team;
 
 	public Long getId() {
 		return id;
@@ -35,13 +42,12 @@ public class Member {
 		this.username = username;
 	}
 
-	public Long getTeamId() {
-		return teamId;
+	public Team getTeam() {
+		return team;
 	}
 
-	public void setTeamId(Long teamId) {
-		this.teamId = teamId;
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 
-	
 }
