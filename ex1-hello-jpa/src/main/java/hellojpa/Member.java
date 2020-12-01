@@ -1,43 +1,23 @@
 package hellojpa;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 public class Member {
 
-	// ID 기본 키 매핑 방법
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
+	@Column(name = "member_id")
 	private Long id;
 
-	@Column(name = "name", nullable = false)
+	@Column(name = "username")
 	private String username;
 
-	private Integer age;
-
-	@Enumerated(EnumType.STRING)
-	private RoleType roleType;
-
-	// LocalDateTime 을 사용하면 생략 가능
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdDate;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastModifiedDate;
-
-	@Lob
-	private String description;
+	@Column(name = "team_id")
+	private Long teamId;
 
 	public Long getId() {
 		return id;
@@ -55,44 +35,13 @@ public class Member {
 		this.username = username;
 	}
 
-	public Integer getAge() {
-		return age;
+	public Long getTeamId() {
+		return teamId;
 	}
 
-	public void setAge(Integer age) {
-		this.age = age;
+	public void setTeamId(Long teamId) {
+		this.teamId = teamId;
 	}
 
-	public RoleType getRoleType() {
-		return roleType;
-	}
-
-	public void setRoleType(RoleType roleType) {
-		this.roleType = roleType;
-	}
-
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Date getLastModifiedDate() {
-		return lastModifiedDate;
-	}
-
-	public void setLastModifiedDate(Date lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
+	
 }

@@ -15,15 +15,21 @@ public class JpaMain {
 		transaction.begin();
 
 		try {
+			//객체지향스럽지 않은 형태, 협력관계 만들 수 없다. -> 데이터 중심의 모델링 
+			Team team = new Team();
+			team.setName("TeamA");
+			entityManager.persist(team);
+			//단점1 - 외래키 식별자를 직접 다루는 형태 
 			Member member = new Member();
-			member.setUsername("test");
-
-			// id 는 db에 들어가야 알 수 있어 insert를 미리 쳐준다
-			System.out.println("================");
+			member.setUsername("member1");
+			member.setTeamId(team.getId());
 			entityManager.persist(member);
-			System.out.println("member id : " + member.getId());
-			System.out.println("================");
-
+			
+			// 객체는 참조를 사용해서 연관관계를 가져야 객체지향적..
+			Member findMember = entityManager.find(Member.class, member.getId());
+			Long findTeamId = findMember.getTeamId();
+			Team findTeam = entityManager.find(Team.class, findTeamId);
+			
 			transaction.commit();
 		} catch (Exception e) {
 			transaction.rollback();
