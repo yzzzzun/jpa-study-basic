@@ -52,4 +52,11 @@ public class Member {
 		this.team = team;
 	}
 
+	//연관관계 편의 메소드가 양쪽에 있으면 문제의 소지가 있음
+//	public void changeTeam(Team team) {
+//		this.team = team;
+//		//연관관계 편의 메소드 
+//		team.getMembers().add(this);
+//	}
+
 }

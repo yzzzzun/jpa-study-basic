@@ -49,4 +49,10 @@ public class Team {
 		this.name = name;
 	}
 
+	//연관관계 편의 메소드
+	public void addMember(Member member) {
+		member.setTeam(this);
+		this.members.add(member);
+	}
+
 }

@@ -23,18 +23,25 @@ public class JpaMain {
 			
 			Member member = new Member();
 			member.setUsername("member1");
-			member.setTeam(team);
 			entityManager.persist(member);
 			
-			//영속성 컨텍스 쿼리 호출해서 DB와 sync를 맞춤 
-			entityManager.flush();
-			entityManager.clear();
+			team.addMember(member);
 			
-			Member findMember = entityManager.find(Member.class, member.getId());
-			List<Member> members = findMember.getTeam().getMembers();
+			//flush하면 DB에서 불러오기때문에 상관없지
+			//1차 캐시에서 가져오는 경우 문제될 수 있
+			//양방향 set할때 양쪽에 set하는게 맞다
+			
+			//영속성 컨텍스 쿼리 호출해서 DB와 sync를 맞춤 
+//			entityManager.flush();
+//			entityManager.clear();
+			
+			Team findTeam = entityManager.find(Team.class, team.getId());
+			List<Member> members = findTeam.getMembers();
+			System.out.println("=================");
 			for (Member m : members) {
 				System.out.println("m = " + m.getUsername());
 			}
+			System.out.println("=================");
 			
 			transaction.commit();
 		} catch (Exception e) {
