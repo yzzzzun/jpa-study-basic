@@ -7,6 +7,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+/**
+ * 테이블은 연관관계의 방향성이 없지만 객체는 방향성이 있다.
+ * 
+ * */
 @Entity
 public class Member {
 
@@ -18,10 +22,8 @@ public class Member {
 	@Column(name = "username")
 	private String username;
 
-//	@Column(name = "team_id")
-//	private Long teamId;
-
-	// Member : team = N : 1 => member입장에서 Many team은 One
+	//연관관계의 주인이다. 
+	//외래키가 있는곳을 주인으로 정해라
 	@ManyToOne
 	@JoinColumn(name = "team_id")
 	private Team team;
