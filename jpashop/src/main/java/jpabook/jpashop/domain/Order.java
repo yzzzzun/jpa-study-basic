@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -36,6 +37,10 @@ public class Order {
 	//비즈니스적으로 member가 orderItem을 직접 조회할일은 없다. 설계가 잘못된거지만 예제로 추가
 	@OneToMany(mappedBy = "order")
 	private List<OrderItem> orderItems = new ArrayList<>();
+
+	@OneToOne
+	@JoinColumn(name = "delivery_id")
+	private Delivery delivery;
 
 	public Member getMember() {
 		return member;
