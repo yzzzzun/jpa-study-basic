@@ -1,5 +1,6 @@
 package hellojpa;
 
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -8,6 +9,7 @@ import javax.persistence.InheritanceType;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn
 public class Item {
 
 	@Id
