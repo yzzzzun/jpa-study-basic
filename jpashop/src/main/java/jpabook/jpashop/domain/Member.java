@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Member {
+public class Member extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,7 +26,7 @@ public class Member {
 	private List<Order> orders = new ArrayList<>();
 
 	public Long getId() {
-		return id; 
+		return id;
 	}
 
 	public void setId(Long id) {

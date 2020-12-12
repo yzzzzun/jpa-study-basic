@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order extends BaseEntity {
 
 	@Id
 	@GeneratedValue
@@ -34,7 +34,7 @@ public class Order {
 	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
 
-	//비즈니스적으로 member가 orderItem을 직접 조회할일은 없다. 설계가 잘못된거지만 예제로 추가
+	// 비즈니스적으로 member가 orderItem을 직접 조회할일은 없다. 설계가 잘못된거지만 예제로 추가
 	@OneToMany(mappedBy = "order")
 	private List<OrderItem> orderItems = new ArrayList<>();
 
@@ -74,7 +74,7 @@ public class Order {
 		this.orderDate = orderDate;
 	}
 
-	//연관관계 편의 메서드 
+	// 연관관계 편의 메서드
 	public void addOrderItem(OrderItem orderItem) {
 		this.orderItems.add(orderItem);
 		orderItem.setOrder(this);
