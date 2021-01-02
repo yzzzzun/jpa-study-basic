@@ -20,17 +20,18 @@ public class JpaMain {
 			member1.setUsername("test");
 			entityManager.persist(member1);
 
-			Member member2 = new Member();
-			member2.setUsername("test");
-			entityManager.persist(member2);
-
 			entityManager.flush();
 			entityManager.clear();
 
 			Member m1 = entityManager.find(Member.class, member1.getId());
-			Member m2 = entityManager.getReference(Member.class, member2.getId());
+			System.out.println("m1 = " + m1.getClass());
 
-			logic(m1, m2);
+			// 이미 영속성컨텍스트에 member가 올라와있기 때문에 프록시를 반환해봐야 얻는 이점도 없기 때문
+			Member reference = entityManager.getReference(Member.class, member1.getId());
+			System.out.println("m1 = " + reference.getClass());
+
+			// 영속성 컨텍스트 내에서 항상 true가 되어야함
+			System.out.println("a==a : " + (m1 == reference));
 
 			transaction.commit();
 		} catch (Exception e) {
@@ -41,9 +42,4 @@ public class JpaMain {
 		entityMangerFactory.close();
 	}
 
-	// 실무에서 타입비교가 이뤄진다면 메서드로 이뤄질것, 절대 타입비교 ==으로 하면 안됨
-	private static void logic(Member m1, Member m2) {
-		System.out.println("m1 == m2 : " + (m1 instanceof Member));
-		System.out.println("m1 == m2 : " + (m2 instanceof Member));
-	}
 }
