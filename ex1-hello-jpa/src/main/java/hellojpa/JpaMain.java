@@ -23,15 +23,17 @@ public class JpaMain {
 			entityManager.flush();
 			entityManager.clear();
 
-			Member m1 = entityManager.find(Member.class, member1.getId());
-			System.out.println("m1 = " + m1.getClass());
+			Member refMember = entityManager.getReference(Member.class, member1.getId());
+			// proxy 가 반환됨
+			System.out.println("m1 = " + refMember.getClass());
 
-			// 이미 영속성컨텍스트에 member가 올라와있기 때문에 프록시를 반환해봐야 얻는 이점도 없기 때문
-			Member reference = entityManager.getReference(Member.class, member1.getId());
-			System.out.println("m1 = " + reference.getClass());
+			Member findMember = entityManager.find(Member.class, member1.getId());
+			// find를 하면 뭘반환해야할까..? 조회하고 프록시가 반환된다. 트랜잭션 내에서 == true 를 보장해야하기 때문
+			System.out.println("reference = " + findMember.getClass());
 
-			// 영속성 컨텍스트 내에서 항상 true가 되어야함
-			System.out.println("a==a : " + (m1 == reference));
+			// 영속성 컨텍스트 내에서 항상 true가 되어야함.
+			// 중요한 포인트는 프록시던 아니던 문제없도록 개발하는게 중요하다.
+			System.out.println("a==a : " + (refMember == findMember));
 
 			transaction.commit();
 		} catch (Exception e) {
