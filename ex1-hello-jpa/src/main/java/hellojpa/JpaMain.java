@@ -5,6 +5,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import org.hibernate.Hibernate;
+
 public class JpaMain {
 
 	public static void main(String[] args) {
@@ -25,15 +27,16 @@ public class JpaMain {
 
 			Member refMember = entityManager.getReference(Member.class, member1.getId());
 			// proxy 가 반환됨
-			System.out.println("m1 = " + refMember.getClass());
+			System.out.println("refMember = " + refMember.getClass());
+			System.out.println(
+					"refMember isLoaded : " + entityMangerFactory.getPersistenceUnitUtil().isLoaded(refMember));
 
-			// 준영속 상태로 변경
-//			entityManager.detach(refMember);
-//			entityManager.close();
-			entityManager.clear();
+			// proxy 강제 초기화
+			// JPA 표준은 강제 초기화가 없다. 강제 초기화 방법 -> refMember.getUsername();
+			Hibernate.initialize(refMember);
 
-			// 영속성컨텍스트에서 준영속 상태가 되면 프록시 초기화가 불가.
-			refMember.getUsername();
+			System.out.println(
+					"refMember isLoaded : " + entityMangerFactory.getPersistenceUnitUtil().isLoaded(refMember));
 
 			transaction.commit();
 		} catch (Exception e) {
