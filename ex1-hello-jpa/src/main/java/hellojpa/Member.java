@@ -8,15 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  * 테이블은 연관관계의 방향성이 없지만 객체는 방향성이 있다.
  * 
  */
 @Entity
-public class Member extends BaseEntity{
+public class Member extends BaseEntity {
 
 	@Id
 	@GeneratedValue
@@ -26,9 +26,9 @@ public class Member extends BaseEntity{
 	@Column(name = "username")
 	private String username;
 
-	@OneToOne
-	@JoinColumn(name = "locker_id")
-	private Locker locker;
+	@ManyToOne
+	@JoinColumn(name = "team_id", insertable = false, updatable = false)
+	private Team team;
 
 	@OneToMany(mappedBy = "member")
 	private List<MemberProduct> memberProducts = new ArrayList<>();
@@ -47,6 +47,14 @@ public class Member extends BaseEntity{
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public Team getTeam() {
+		return this.team;
+	}
+
+	public List<MemberProduct> getMemberProducts() {
+		return this.memberProducts;
 	}
 
 	// 연관관계 편의 메소드가 양쪽에 있으면 문제의 소지가 있음
