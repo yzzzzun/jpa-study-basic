@@ -16,27 +16,21 @@ public class JpaMain {
 
 		try {
 
-			Member member = new Member();
-			member.setUsername("test");
-			entityManager.persist(member);
+			Member member1 = new Member();
+			member1.setUsername("test");
+			entityManager.persist(member1);
+
+			Member member2 = new Member();
+			member2.setUsername("test");
+			entityManager.persist(member2);
 
 			entityManager.flush();
 			entityManager.clear();
 
-//			Member findMember = entityManager.find(Member.class, member.getId());
+			Member m1 = entityManager.find(Member.class, member1.getId());
+			Member m2 = entityManager.getReference(Member.class, member2.getId());
 
-			// select query 가 안나간다.
-			Member findMember = entityManager.getReference(Member.class, member.getId());
-			System.out.println("findMember.id = " + findMember.getId());
-
-			System.out.println("before findMember = " + findMember.getClass());
-
-			// getUsername 을 할 때 select 쿼리호출해서 값을 가져온다.
-			System.out.println("findMember.username = " + findMember.getUsername());
-			// 역속성컨텍스트에 값이 있기때문에 더이상 조회하지않음
-			// System.out.println("findMember.username = " + findMember.getUsername());
-
-			System.out.println("after findMember = " + findMember.getClass());
+			logic(m1, m2);
 
 			transaction.commit();
 		} catch (Exception e) {
@@ -45,5 +39,11 @@ public class JpaMain {
 			entityManager.close();
 		}
 		entityMangerFactory.close();
+	}
+
+	// 실무에서 타입비교가 이뤄진다면 메서드로 이뤄질것, 절대 타입비교 ==으로 하면 안됨
+	private static void logic(Member m1, Member m2) {
+		System.out.println("m1 == m2 : " + (m1 instanceof Member));
+		System.out.println("m1 == m2 : " + (m2 instanceof Member));
 	}
 }
