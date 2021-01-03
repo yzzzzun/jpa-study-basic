@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -26,8 +27,8 @@ public class Member extends BaseEntity {
 	@Column(name = "username")
 	private String username;
 
-	@ManyToOne
-	@JoinColumn(name = "team_id", insertable = false, updatable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "team_id")
 	private Team team;
 
 	@OneToMany(mappedBy = "member")
@@ -55,6 +56,10 @@ public class Member extends BaseEntity {
 
 	public List<MemberProduct> getMemberProducts() {
 		return this.memberProducts;
+	}
+
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 
 	// 연관관계 편의 메소드가 양쪽에 있으면 문제의 소지가 있음

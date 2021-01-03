@@ -5,8 +5,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import org.hibernate.Hibernate;
-
 public class JpaMain {
 
 	public static void main(String[] args) {
@@ -18,25 +16,24 @@ public class JpaMain {
 
 		try {
 
+			Team team = new Team();
+			team.setName("team1");
+			entityManager.persist(team);
+
 			Member member1 = new Member();
 			member1.setUsername("test");
+			member1.setTeam(team);
 			entityManager.persist(member1);
 
 			entityManager.flush();
 			entityManager.clear();
 
-			Member refMember = entityManager.getReference(Member.class, member1.getId());
-			// proxy 가 반환됨
-			System.out.println("refMember = " + refMember.getClass());
-			System.out.println(
-					"refMember isLoaded : " + entityMangerFactory.getPersistenceUnitUtil().isLoaded(refMember));
+			Member m = entityManager.find(Member.class, member1.getId());
+			System.out.println("m = " + m.getTeam().getClass());
 
-			// proxy 강제 초기화
-			// JPA 표준은 강제 초기화가 없다. 강제 초기화 방법 -> refMember.getUsername();
-			Hibernate.initialize(refMember);
-
-			System.out.println(
-					"refMember isLoaded : " + entityMangerFactory.getPersistenceUnitUtil().isLoaded(refMember));
+			System.out.println("==========");
+			m.getTeam().getName(); // 프록시의 초기화
+			System.out.println("==========");
 
 			transaction.commit();
 		} catch (Exception e) {
