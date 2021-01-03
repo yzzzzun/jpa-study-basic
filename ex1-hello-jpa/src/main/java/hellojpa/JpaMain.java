@@ -32,7 +32,7 @@ public class JpaMain {
 			System.out.println("m = " + m.getTeam().getClass());
 
 			System.out.println("==========");
-			m.getTeam().getName(); // 프록시의 초기화
+			System.out.println("team name = " + m.getTeam().getName());
 			System.out.println("==========");
 
 			transaction.commit();
