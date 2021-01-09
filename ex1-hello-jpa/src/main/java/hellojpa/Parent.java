@@ -18,8 +18,26 @@ public class Parent {
 
 	private String name;
 
-	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Child> childList = new ArrayList<>();
+
+	/**
+	 * childList를 반환합니다.
+	 * 
+	 * @return childList
+	 */
+	public List<Child> getChildList() {
+		return this.childList;
+	}
+
+	/**
+	 * childList 초기화 합니다.
+	 * 
+	 * @param childList 초기화 값
+	 */
+	public void setChildList(List<Child> childList) {
+		this.childList = childList;
+	}
 
 	public void addChild(Child child) {
 		this.childList.add(child);
