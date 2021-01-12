@@ -1,23 +1,19 @@
 package hellojpa;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 /**
  * 테이블은 연관관계의 방향성이 없지만 객체는 방향성이 있다.
  * 
  */
 @Entity
-public class Member extends BaseEntity {
+public class Member {
 
 	@Id
 	@GeneratedValue
@@ -27,46 +23,90 @@ public class Member extends BaseEntity {
 	@Column(name = "username")
 	private String username;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "team_id")
-	private Team team;
+	@Embedded
+	private Period workPeriod;
 
-	@OneToMany(mappedBy = "member")
-	private List<MemberProduct> memberProducts = new ArrayList<>();
+	@Embedded
+	private Address homeAddress;
 
+	@Embedded
+	@AttributeOverrides({
+			@AttributeOverride(name = "city", column = @Column(name = "work_city")),
+			@AttributeOverride(name = "street", column = @Column(name = "work_street")),
+			@AttributeOverride(name = "zipcode", column = @Column(name = "work_zipcode"))
+	})
+	private Address workAddress;
+
+	/**
+	 * id를 반환합니다.
+	 * 
+	 * @return id
+	 */
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
+	/**
+	 * id 초기화 합니다.
+	 * 
+	 * @param id 초기화 값
+	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+	/**
+	 * username를 반환합니다.
+	 * 
+	 * @return username
+	 */
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
+	/**
+	 * username 초기화 합니다.
+	 * 
+	 * @param username 초기화 값
+	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
-	public Team getTeam() {
-		return this.team;
+	/**
+	 * workPeriod를 반환합니다.
+	 * 
+	 * @return workPeriod
+	 */
+	public Period getWorkPeriod() {
+		return this.workPeriod;
 	}
 
-	public List<MemberProduct> getMemberProducts() {
-		return this.memberProducts;
+	/**
+	 * workPeriod 초기화 합니다.
+	 * 
+	 * @param workPeriod 초기화 값
+	 */
+	public void setWorkPeriod(Period workPeriod) {
+		this.workPeriod = workPeriod;
 	}
 
-	public void setTeam(Team team) {
-		this.team = team;
+	/**
+	 * homeAddress를 반환합니다.
+	 * 
+	 * @return homeAddress
+	 */
+	public Address getHomeAddress() {
+		return this.homeAddress;
 	}
 
-	// 연관관계 편의 메소드가 양쪽에 있으면 문제의 소지가 있음
-//	public void changeTeam(Team team) {
-//		this.team = team;
-//		//연관관계 편의 메소드 
-//		team.getMembers().add(this);
-//	}
+	/**
+	 * homeAddress 초기화 합니다.
+	 * 
+	 * @param homeAddress 초기화 값
+	 */
+	public void setHomeAddress(Address homeAddress) {
+		this.homeAddress = homeAddress;
+	}
 
 }

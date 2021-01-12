@@ -15,20 +15,13 @@ public class JpaMain {
 		transaction.begin();
 
 		try {
-			Parent parent = new Parent();
-			Child child1 = new Child();
-			Child child2 = new Child();
 
-			parent.addChild(child1);
-			parent.addChild(child2);
+			Member member = new Member();
+			member.setUsername("test");
+			member.setHomeAddress(new Address("city", "street", "100"));
+			member.setWorkPeriod(new Period());
 
-			entityManager.persist(parent);
-
-			entityManager.flush();
-			entityManager.clear();
-
-			Parent findParent = entityManager.find(Parent.class, parent.getId());
-			entityManager.remove(findParent);
+			entityManager.persist(member);
 
 			transaction.commit();
 		} catch (Exception e) {
