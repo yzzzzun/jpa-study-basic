@@ -43,15 +43,6 @@ public class Address {
 	}
 
 	/**
-	 * city 초기화 합니다.
-	 * 
-	 * @param city 초기화 값
-	 */
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	/**
 	 * street를 반환합니다.
 	 * 
 	 * @return street
@@ -61,30 +52,12 @@ public class Address {
 	}
 
 	/**
-	 * street 초기화 합니다.
-	 * 
-	 * @param street 초기화 값
-	 */
-	public void setStreet(String street) {
-		this.street = street;
-	}
-
-	/**
 	 * zipcode를 반환합니다.
 	 * 
 	 * @return zipcode
 	 */
 	public String getZipcode() {
 		return this.zipcode;
-	}
-
-	/**
-	 * zipcode 초기화 합니다.
-	 * 
-	 * @param zipcode 초기화 값
-	 */
-	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
 	}
 
 }

@@ -17,20 +17,22 @@ public class JpaMain {
 		try {
 			Address homeAddress = new Address("city", "street", "100");
 
+			// copy 해서 사용
+			Address copyAddress = new Address(homeAddress.getCity(), homeAddress.getStreet(), homeAddress.getZipcode());
+
 			Member member1 = new Member();
 			member1.setUsername("member1");
 			member1.setHomeAddress(homeAddress);
 
 			Member member2 = new Member();
 			member2.setUsername("member2");
-			member2.setHomeAddress(homeAddress);
-
-			// member1의 주소에서 city값을 변경 -> 하지만 member2도 변경됨
-			// member1,member2의 값을 모두 공유하려고했다? -> address가 값타입이아닌 엔티티로 설계해야함
-			member1.getHomeAddress().setCity("new City");
+			member2.setHomeAddress(copyAddress);
 
 			entityManager.persist(member1);
 			entityManager.persist(member2);
+
+			// 값타입을 불변객체로 만들어버리면 컴파일 레벨에서 side effect 차단 가능
+			// member1.getHomeAddress().setCity("new City");
 
 			transaction.commit();
 		} catch (Exception e) {
