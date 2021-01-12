@@ -17,22 +17,15 @@ public class JpaMain {
 		try {
 			Address homeAddress = new Address("city", "street", "100");
 
-			// copy 해서 사용
-			Address copyAddress = new Address(homeAddress.getCity(), homeAddress.getStreet(), homeAddress.getZipcode());
+			Member member = new Member();
+			member.setUsername("member1");
+			member.setHomeAddress(homeAddress);
 
-			Member member1 = new Member();
-			member1.setUsername("member1");
-			member1.setHomeAddress(homeAddress);
+			entityManager.persist(member);
 
-			Member member2 = new Member();
-			member2.setUsername("member2");
-			member2.setHomeAddress(copyAddress);
-
-			entityManager.persist(member1);
-			entityManager.persist(member2);
-
-			// 값타입을 불변객체로 만들어버리면 컴파일 레벨에서 side effect 차단 가능
-			// member1.getHomeAddress().setCity("new City");
+			// 통으로 수정해줘야 한다.
+			Address newAddress = new Address("new city", homeAddress.getStreet(), homeAddress.getZipcode());
+			member.setHomeAddress(newAddress);
 
 			transaction.commit();
 		} catch (Exception e) {
