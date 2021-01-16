@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,12 +19,50 @@ public class Member extends BaseEntity {
 	@Column(name = "member_id")
 	private Long id;
 	private String name;
-	private String city;
-	private String street;
-	private String zipcode;
+	
+	@Embedded
+	private Address address;
 
 	@OneToMany(mappedBy = "member")
 	private List<Order> orders = new ArrayList<>();
+
+	
+	
+	/**
+	 * address를 반환합니다.
+	 * @author youngjun.jin
+	 * @return address
+	 */
+	public Address getAddress() {
+		return this.address;
+	}
+
+	/**
+	 * address 초기화 합니다.
+	 * @author youngjun.jin
+	 * @param address 초기화 값
+	 */
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	/**
+	 * orders를 반환합니다.
+	 * @author youngjun.jin
+	 * @return orders
+	 */
+	public List<Order> getOrders() {
+		return this.orders;
+	}
+
+	/**
+	 * orders 초기화 합니다.
+	 * @author youngjun.jin
+	 * @param orders 초기화 값
+	 */
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
 
 	public Long getId() {
 		return id;
@@ -39,30 +78,6 @@ public class Member extends BaseEntity {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getStreet() {
-		return street;
-	}
-
-	public void setStreet(String street) {
-		this.street = street;
-	}
-
-	public String getZipcode() {
-		return zipcode;
-	}
-
-	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
 	}
 
 }
