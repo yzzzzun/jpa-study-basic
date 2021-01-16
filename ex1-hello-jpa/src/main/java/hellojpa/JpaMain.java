@@ -25,8 +25,8 @@ public class JpaMain {
 			member.getFavoriteFoods().add("족발");
 			member.getFavoriteFoods().add("피자");
 
-			member.getAddressHistory().add(new Address("old1", "street1", "1111"));
-			member.getAddressHistory().add(new Address("old2", "street2", "2222"));
+			member.getAddressHistory().add(new AddressEntity("old1", "street1", "1111"));
+			member.getAddressHistory().add(new AddressEntity("old2", "street2", "2222"));
 
 			entityManager.persist(member);
 
@@ -45,8 +45,8 @@ public class JpaMain {
 			findMember.getFavoriteFoods().add("한식");
 			
 			//equals 로 비교한다. 재정의 중요한 이유
-			findMember.getAddressHistory().remove(new Address("old1", "street1", "1111"));
-			findMember.getAddressHistory().add(new Address("newCity1", "street1", "1111"));
+			findMember.getAddressHistory().remove(new AddressEntity("old1", "street1", "1111"));
+			findMember.getAddressHistory().add(new AddressEntity("newCity1", "street1", "1111"));
 			
 			transaction.commit();
 		} catch (Exception e) {

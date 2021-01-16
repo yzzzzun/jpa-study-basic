@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -13,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 /**
  * �뀒�씠釉붿� �뿰愿�愿�怨꾩쓽 諛⑺뼢�꽦�씠 �뾾吏�留� 媛앹껜�뒗 諛⑺뼢�꽦�씠 �엳�떎.
@@ -40,9 +42,9 @@ public class Member {
 	@Column(name = "food_name") // 임베디드 타입 정의한게 아니라서 컬럼명설정
 	private Set<String> favoriteFoods = new HashSet<>();
 
-	@ElementCollection
-	@CollectionTable(name = "address", joinColumns = @JoinColumn(name = "member_id"))
-	private List<Address> addressHistory = new ArrayList<>();
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "member_id")
+	private List<AddressEntity> addressHistory = new ArrayList<>();
 
 	/**
 	 * favoriteFoods를 반환합니다.
@@ -70,7 +72,7 @@ public class Member {
 	 * @author youngjun.jin
 	 * @return addressHistory
 	 */
-	public List<Address> getAddressHistory() {
+	public List<AddressEntity> getAddressHistory() {
 		return this.addressHistory;
 	}
 
@@ -80,7 +82,7 @@ public class Member {
 	 * @author youngjun.jin
 	 * @param addressHistory 초기화 값
 	 */
-	public void setAddressHistory(List<Address> addressHistory) {
+	public void setAddressHistory(List<AddressEntity> addressHistory) {
 		this.addressHistory = addressHistory;
 	}
 
