@@ -20,12 +20,15 @@ public class JpaMain {
 			Member member = new Member();
 			member.setUsername("member1");
 			member.setHomeAddress(homeAddress);
+			
+			member.getFavoriteFoods().add("치킨");
+			member.getFavoriteFoods().add("족발");
+			member.getFavoriteFoods().add("피자");
+			
+			member.getAddressHistory().add(new Address("old1", "street1", "1111"));
+			member.getAddressHistory().add(new Address("old2", "street2", "2222"));
 
 			entityManager.persist(member);
-
-			// 통으로 수정해줘야 한다.
-			Address newAddress = new Address("new city", homeAddress.getStreet(), homeAddress.getZipcode());
-			member.setHomeAddress(newAddress);
 
 			transaction.commit();
 		} catch (Exception e) {

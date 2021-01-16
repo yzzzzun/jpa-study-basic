@@ -1,13 +1,21 @@
 package hellojpa;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 /**
- * 테이블은 연관관계의 방향성이 없지만 객체는 방향성이 있다.
+ * �뀒�씠釉붿� �뿰愿�愿�怨꾩쓽 諛⑺뼢�꽦�씠 �뾾吏�留� 媛앹껜�뒗 諛⑺뼢�꽦�씠 �엳�떎.
  * 
  */
 @Entity
@@ -27,8 +35,56 @@ public class Member {
 	@Embedded
 	private Address homeAddress;
 
+	@ElementCollection
+	@CollectionTable(name = "favorite_food", joinColumns = @JoinColumn(name = "member_id"))
+	@Column(name = "food_name") // 임베디드 타입 정의한게 아니라서 컬럼명설정
+	private Set<String> favoriteFoods = new HashSet<>();
+
+	@ElementCollection
+	@CollectionTable(name = "address", joinColumns = @JoinColumn(name = "member_id"))
+	private List<Address> addressHistory = new ArrayList<>();
+
 	/**
-	 * id를 반환합니다.
+	 * favoriteFoods를 반환합니다.
+	 * 
+	 * @author youngjun.jin
+	 * @return favoriteFoods
+	 */
+	public Set<String> getFavoriteFoods() {
+		return this.favoriteFoods;
+	}
+
+	/**
+	 * favoriteFoods 초기화 합니다.
+	 * 
+	 * @author youngjun.jin
+	 * @param favoriteFoods 초기화 값
+	 */
+	public void setFavoriteFoods(Set<String> favoriteFoods) {
+		this.favoriteFoods = favoriteFoods;
+	}
+
+	/**
+	 * addressHistory를 반환합니다.
+	 * 
+	 * @author youngjun.jin
+	 * @return addressHistory
+	 */
+	public List<Address> getAddressHistory() {
+		return this.addressHistory;
+	}
+
+	/**
+	 * addressHistory 초기화 합니다.
+	 * 
+	 * @author youngjun.jin
+	 * @param addressHistory 초기화 값
+	 */
+	public void setAddressHistory(List<Address> addressHistory) {
+		this.addressHistory = addressHistory;
+	}
+
+	/**
 	 * 
 	 * @return id
 	 */
@@ -37,16 +93,16 @@ public class Member {
 	}
 
 	/**
-	 * id 초기화 합니다.
+	 * id 珥덇린�솕 �빀�땲�떎.
 	 * 
-	 * @param id 초기화 값
+	 * @param id 珥덇린�솕 媛�
 	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
 	/**
-	 * username를 반환합니다.
+	 * username瑜� 諛섑솚�빀�땲�떎.
 	 * 
 	 * @return username
 	 */
@@ -55,16 +111,16 @@ public class Member {
 	}
 
 	/**
-	 * username 초기화 합니다.
+	 * username 珥덇린�솕 �빀�땲�떎.
 	 * 
-	 * @param username 초기화 값
+	 * @param username 珥덇린�솕 媛�
 	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
 	/**
-	 * workPeriod를 반환합니다.
+	 * workPeriod瑜� 諛섑솚�빀�땲�떎.
 	 * 
 	 * @return workPeriod
 	 */
@@ -73,16 +129,16 @@ public class Member {
 	}
 
 	/**
-	 * workPeriod 초기화 합니다.
+	 * workPeriod 珥덇린�솕 �빀�땲�떎.
 	 * 
-	 * @param workPeriod 초기화 값
+	 * @param workPeriod 珥덇린�솕 媛�
 	 */
 	public void setWorkPeriod(Period workPeriod) {
 		this.workPeriod = workPeriod;
 	}
 
 	/**
-	 * homeAddress를 반환합니다.
+	 * homeAddress瑜� 諛섑솚�빀�땲�떎.
 	 * 
 	 * @return homeAddress
 	 */
@@ -91,9 +147,9 @@ public class Member {
 	}
 
 	/**
-	 * homeAddress 초기화 합니다.
+	 * homeAddress 珥덇린�솕 �빀�땲�떎.
 	 * 
-	 * @param homeAddress 초기화 값
+	 * @param homeAddress 珥덇린�솕 媛�
 	 */
 	public void setHomeAddress(Address homeAddress) {
 		this.homeAddress = homeAddress;
