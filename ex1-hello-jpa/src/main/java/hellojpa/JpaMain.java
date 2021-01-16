@@ -1,8 +1,5 @@
 package hellojpa;
 
-import java.util.List;
-import java.util.Set;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -39,19 +36,18 @@ public class JpaMain {
 			System.out.println("----------------------START---------------");
 			Member findMember = entityManager.find(Member.class, member.getId());
 
-			//LAZY Loading 확인 
-			List<Address> addressHistory = findMember.getAddressHistory();
-			for (Address address : addressHistory) {
-
-				System.out.println("address = " + address.getCity());
-			}
-
-			Set<String> favoriteFoods = findMember.getFavoriteFoods();
-			for (String food : favoriteFoods) {
-
-				System.out.println("favorite food = " + food);
-			}
-
+			//homeCity -> new City
+			// findMember.getHomeAddress().setCity("newCity"); -> side effect 생기기 딱 좋음. 값타입은 immutable하다 
+			Address old = findMember.getHomeAddress();
+			findMember.setHomeAddress(new Address("newCity", old.getStreet(), old.getZipcode()));
+			
+			findMember.getFavoriteFoods().remove("치킨");
+			findMember.getFavoriteFoods().add("한식");
+			
+			//equals 로 비교한다. 재정의 중요한 이유
+			findMember.getAddressHistory().remove(new Address("old1", "street1", "1111"));
+			findMember.getAddressHistory().add(new Address("newCity1", "street1", "1111"));
+			
 			transaction.commit();
 		} catch (Exception e) {
 			transaction.rollback();
