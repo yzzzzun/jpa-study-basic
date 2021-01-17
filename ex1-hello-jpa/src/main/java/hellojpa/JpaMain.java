@@ -6,10 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 public class JpaMain {
 
@@ -22,13 +18,20 @@ public class JpaMain {
 
 		try {
 
-			CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-			CriteriaQuery<Member> query = cb.createQuery(Member.class);
+			Member member = new Member();
+			member.setUsername("member1");
+			entityManager.persist(member);
 
-			Root<Member> m = query.from(Member.class);
+			//flush가 자동으로 된다. -> query가 나가있어야 조회가 가능하기때문
+			List<Member> resultList = entityManager.createNativeQuery("select member_id, city, street, zipcode, username from member", Member.class)
+					.getResultList();
+
+			//JPA와 전혀 연관없음, 미리 강제로 flush를 해줘야 데이터가 저장되어있어 쿼리가 가능
+			//dbconn.executeQuery("select * from member");
 			
-			CriteriaQuery<Member> cq = query.select(m).where(cb.equal(m.get("username"), "kim"));
-			List<Member> resultList = entityManager.createQuery(cq).getResultList();
+			for (Member m : resultList) {
+				System.out.println("member = " + member.getUsername());
+			}
 			
 			transaction.commit();
 		} catch (Exception e) {
