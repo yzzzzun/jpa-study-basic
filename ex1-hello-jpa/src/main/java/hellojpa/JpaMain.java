@@ -7,6 +7,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 public class JpaMain {
 
@@ -19,15 +22,13 @@ public class JpaMain {
 
 		try {
 
-			//entity를 대상으로 쿼리함
-			//단순한 스트링이다.-> 동적쿼리를 만들기 쉽지않다.
-			String query = "select m from Member m where m.username like '%kim%'";
-			List<Member> resultList = entityManager.createQuery(query, Member.class)
-					.getResultList();
+			CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Member> query = cb.createQuery(Member.class);
 
-			for (Member member : resultList) {
-				System.out.println("member = " + member.getUsername());
-			}
+			Root<Member> m = query.from(Member.class);
+			
+			CriteriaQuery<Member> cq = query.select(m).where(cb.equal(m.get("username"), "kim"));
+			List<Member> resultList = entityManager.createQuery(cq).getResultList();
 			
 			transaction.commit();
 		} catch (Exception e) {
