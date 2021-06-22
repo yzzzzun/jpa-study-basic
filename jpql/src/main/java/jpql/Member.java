@@ -11,6 +11,7 @@
 package jpql;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -29,10 +30,19 @@ public class Member {
 	
 	private int age;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "team_id")
 	private Team team;
-	
+
+	public Team getTeam() {
+		return team;
+	}
+
+	public void changeTeam(Team team) {
+		this.team = team;
+		team.getMembers().add(this);
+	}
+
 	/**
 	 * id를 반환합니다.
 	 * @author youngjun.jin
@@ -86,6 +96,13 @@ public class Member {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Member{" +
+			"id=" + id +
+			", username='" + username + '\'' +
+			", age=" + age +
+			'}';
+	}
 }

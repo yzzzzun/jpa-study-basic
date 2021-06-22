@@ -1,13 +1,13 @@
 /**
-* FileName : Team.java
-* Created  : 2021. 1. 17.
-* Author   : youngjun.jin
-* Summary  :
-* Copyright (C) 2021 yzzzzun. All rights reserved.
-*
-* 이 문서의 모든 저작권 및 지적 재산권은 yzzzzun에게 있습니다.
-* 이 문서의 어떠한 부분도 허가 없이 복제 또는 수정 하거나, 전송할 수 없습니다.
-*/
+ * FileName : Team.java
+ * Created  : 2021. 1. 17.
+ * Author   : youngjun.jin
+ * Summary  :
+ * Copyright (C) 2021 yzzzzun. All rights reserved.
+ *
+ * 이 문서의 모든 저작권 및 지적 재산권은 yzzzzun에게 있습니다.
+ * 이 문서의 어떠한 부분도 허가 없이 복제 또는 수정 하거나, 전송할 수 없습니다.
+ */
 package jpql;
 
 import java.util.ArrayList;
@@ -29,13 +29,17 @@ public class Team {
 	private Long id;
 
 	private String name;
-	
+
 	@OneToMany(mappedBy = "team")
 	private List<Member> members = new ArrayList<>();
 
+	public List<Member> getMembers() {
+		return members;
+	}
+
 	/**
 	 * id를 반환합니다.
-	 * 
+	 *
 	 * @author youngjun.jin
 	 * @return id
 	 */
@@ -45,7 +49,7 @@ public class Team {
 
 	/**
 	 * id 초기화 합니다.
-	 * 
+	 *
 	 * @author youngjun.jin
 	 * @param id 초기화 값
 	 */
@@ -55,7 +59,7 @@ public class Team {
 
 	/**
 	 * name를 반환합니다.
-	 * 
+	 *
 	 * @author youngjun.jin
 	 * @return name
 	 */
@@ -65,7 +69,7 @@ public class Team {
 
 	/**
 	 * name 초기화 합니다.
-	 * 
+	 *
 	 * @author youngjun.jin
 	 * @param name 초기화 값
 	 */
