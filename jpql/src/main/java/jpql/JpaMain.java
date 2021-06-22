@@ -62,20 +62,16 @@ public class JpaMain {
 			entityManager.flush();
 			entityManager.clear();
 
-			String query = "select m from Member m join fetch m.team";
+			String query = "select distinct t From Team t join fetch t.members";
 
-			List<Member> result = entityManager
-				.createQuery(query, Member.class)
+			List<Team> result = entityManager
+				.createQuery(query, Team.class)
 				.getResultList();
-			for (Member member : result) {
-				System.out.println("member = " + member.getUsername() + ", " + member.getTeam().getName());
-				//회원1, teamA(SQL)
-				//회원2, teamA(1차 캐시)
-				//회원3, teamB(SQL)
-				//회원 100명 => N + 1
-				// 회원을 가져오기위한 쿼리.. 100번 team을 조회
-
-				//페치조인으로 풀어라
+			for (Team team : result) {
+				System.out.println("team = " + team.getName() + "|members = " + team.getMembers().size());
+				for(Member member : team.getMembers()){
+					System.out.println("member = " + member);
+				}
 			}
 
 			transaction.commit();
