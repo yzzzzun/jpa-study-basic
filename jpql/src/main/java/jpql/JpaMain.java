@@ -62,7 +62,7 @@ public class JpaMain {
 			entityManager.flush();
 			entityManager.clear();
 
-			String query = "select m from Member m";
+			String query = "select m from Member m join fetch m.team";
 
 			List<Member> result = entityManager
 				.createQuery(query, Member.class)
